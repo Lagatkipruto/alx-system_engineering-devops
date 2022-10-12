@@ -1,0 +1,2 @@
+#!/bin/bas
+echo "$((2#$BINARY))"
