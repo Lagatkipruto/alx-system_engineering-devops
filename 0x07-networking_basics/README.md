@@ -1,0 +1,1 @@
+This project is about networking concepts. I answered quiz-like questions and wrote bash scripts during the projects. I learned about OSI model, LAN and WAN networks and TCP/UDP data transfer protocols.
