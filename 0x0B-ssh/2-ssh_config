@@ -16,5 +16,5 @@
 # ssh_config(5) man page.
     SendEnv LANG LC_*
     HashKnownHosts yes
-    GSSAPIAuthentication yes
+    GSSAPIAuthentication no
     GSSAPIDelegateCredentials no
