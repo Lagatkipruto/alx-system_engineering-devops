@@ -21,3 +21,10 @@ backend webservers
 " | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
 sudo systemctl enable haproxy
 sudo systemctl restart haproxy
+
+if ! systemctl is-active haproxy >/dev/null; then
+    echo "HAProxy failed to start"
+    exit 1
+
+fi
+exit 0
