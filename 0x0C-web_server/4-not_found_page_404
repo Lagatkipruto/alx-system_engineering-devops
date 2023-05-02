@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Installs Nginx with the following configurations:
+#+    Listens on port 80.
+#+    Returns a page containing 404 page that contains the string 
+#++    Ceci n'est pas une page
+
+sudo apt-get update
+sudo apt-get install -y nginx
+ufw allow 'Nginx HTTP'
+chmod -R 755 /var/www
+
+new_config=\
+"server {
+     listen      80 default_server;
+     listen      [::]:80 default_server;
+
+     root        /var/www/html;
+
+     error_page 404 /404.html;
+     location = /404.html {
+         internal;
+     }
+
+     location / {
+         try_files \$uri \$uri/ =404;
+     }
+
+     index       index.html index.htm;
+}
+"
+echo \"Ceci n'est pas une page\" > /var/www/html/404.html
+echo "$new_config" > /etc/nginx/sites-available/default'
+
+if [ "$(pgrep nginx)" -le 0 ];
+then
+	service nginx start
+else
+	service nginx restart
+fi;
