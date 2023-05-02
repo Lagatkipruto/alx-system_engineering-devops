@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# It installs and configure HAproxy on my 1b-01 server.
+#++ It is  configured to send traffic to web-01 and web-02
+#++ It distributes requests using roundrobin algorithm.
+#++ It is configured with hostnames :167389-web-01 and 167389-web-02.
+
+sudo apt-get update
+sudo apt-get install -y haproxy
+
+echo "
+frontend www
+   bind *:80
+   mode http
+   default_backend webservers
+
+backend webservers
+   mode http
+   balance roundrobin
+   server web-01 167389-web-01:80 check
+   server web-02 167389-web-02:80 check
+" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
+sudo systemctl enable haproxy
+sudo systemctl restart haproxy
