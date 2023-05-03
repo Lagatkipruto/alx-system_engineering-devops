@@ -1,0 +1,23 @@
+Hit:1 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:2 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+nginx is already the newest version (1.10.3-0ubuntu0.16.04.5).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+server {
+   listen 80;
+   listen [::]:80;
+   server_name _;
+   location / {
+      proxy_pass http://127.0.0.1:8000;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+   }
+}
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+Failed to connect to bus: No such file or directory
