@@ -8,7 +8,6 @@ tr '\n' ' ')
 points to " $3}'
 }
 
-
 if [ "$#" == 1 ]
 then
   domain_information "$1" "www"
