@@ -4,21 +4,23 @@
 #++ It distributes requests using roundrobin algorithm.
 #++ It is configured with hostnames :167389-web-01 and 167389-web-02.
 
-sudo apt-get update
-sudo apt-get install -y haproxy
 
-sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
-sudo touch /etc/haproxy/haproxy.cfg
-sudo chmod 666 /etc/haproxy/haproxy.cfg
-echo "global
-   log /dev/log   local0
-   log /dev/log   local1 notice
-   chroot /var/lib/haproxy
-   stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
-   stats timeout 30s
-   user haproxy
-   group haproxy
-   daemon
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-1.8
+apt-get update
+apt-get install -y haproxy=1.8.\*
+
+
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.original}
+touch /etc/haproxy/haproxy.cfg
+
+
+printf %s "global
+    log 127.0.0.1 local0 notice
+    maxconn 2000
+    user haproxy
+    group haproxy
 
 defaults
    log    global
@@ -26,21 +28,24 @@ defaults
    option httplog
    option dontlognull
    retries 3
+   option redispatch
    timeout connect 5000
    timeout client  50000
    timeout server  50000
 
-frontend www
-   bind *:80
-   default_backend webservers
+listen hbnb
+    bind 0.0.0.0:80
+    mode http
+    stats enable
+    stats uri /haproxy?stats
+    balance roundrobin
+    option httpclose
+    option forwardfor
+    server 167389-web-01 54.89.194.128:80 check
+    server 167389-web-02 54.209.119.141:80 check
+" >> /etc/haproxy/haproxy.cfg
 
-backend webservers
-   balance roundrobin
-   server 167389-web-01:80 check
-   server 167389-web-02:80 check
-" | sudo tee -a /etc/haproxy/haproxy.cfg
-
-sudo chmod 644 /etc/haproxy/haproxy.cfg
+service haproxy start
 sudo systemctl restart haproxy.service
 
 sudo systemctl enable haproxy.service
