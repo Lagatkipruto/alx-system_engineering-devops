@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-# Install nginx and check for any errors
-#+ Create a new configuration file for Nginx
-#+ Check if the configuration file is valid
-
-sudo apt-get update
-sudo apt-get install -y nginx || exit 1
+#+ Create a new configuration file for Nginx to listen on port 80.
 
 rm /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
