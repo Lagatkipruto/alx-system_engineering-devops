@@ -1,26 +1,6 @@
 #!/usr/bin/env bash
-# Install nginx and check for any errors
-#+ Create a new configuration file for Nginx
-#+ Check if the configuration file is valid
+#+ Create a new configuration file for Nginx to listen on port 80.
 
-sudo apt-get update
-sudo apt-get install -y nginx || exit 1
-
-sudo mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-
-sudo tee /etc/nginx/sites-available/default <<EOF
-server {
-   listen 80;
-   listen [::]:80;
-   server_name _;
-   location / {
-      proxy_pass http://127.0.0.1:8000;
-      proxy_set_header Host \$host;
-      proxy_set_header X-Real-IP \$remote_addr;
-   }
-}
-EOF
-
-sudo nginx -t || exit 1
-
-sudo systemctl restart nginx
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
