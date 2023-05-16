@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Running has Nginx
+if ! id -u nginx >/dev/null 2>&1; then
+useradd -r nginx
+fi
+
+nginx_conf_file=""
+possible_locations=(
+  "/etc/nginx/nginx.conf"
+  "/etc/nginx/conf.d/default.conf"
+)
+for location in "${possible_locations[@]}"; do
+if [ -f "$location" ]; then
+nginx_conf_file="$location"
+break
+fi
+done
+
+if [ -z "$nginx_conf_file" ]; then
+echo "Nginx configuration file not found."
+exit 1
+fi
+
+sed -i 's/user\s*nginx;/user nginx nginx;/' "$nginx_conf_file"
+sed -i 's/listen\s*80;/listen 8080;/' "$nginx_conf_file"
+
+service nginx restart

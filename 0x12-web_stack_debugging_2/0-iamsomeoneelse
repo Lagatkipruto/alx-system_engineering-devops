@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# It runs whoami command under user passed as arg1
+if [ "$#" -ne 1 ]; then
+echo "Usage: $0 <username>"
+exit 1
+fi
+
+user="$1"
+su "$user" -s /bin/bash -c 'whoami'
