@@ -9,3 +9,7 @@ server-id       = 2
 log_bin         = /var/log/mysql/mysql-bin.log
 relay_log       = /var/log/mysql/mysql-relay-bin
 binlog_do_db    = tyrell_corp
+replicate-do-db = tyrell_corp
+master-host     = 54.89.194.128
+master-user     = replica_user
+master-port     = 3306
