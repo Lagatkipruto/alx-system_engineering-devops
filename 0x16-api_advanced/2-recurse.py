@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""A function that querries a list of all hot posts on a given Reddit subreddit."""
+"""A function that querries a
+list of all hot posts on a given Reddit subreddit."""
 import requests
 
 
