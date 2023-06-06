@@ -1,0 +1,1 @@
+This project is about advanced API. It involves querrying the Reddit API.
