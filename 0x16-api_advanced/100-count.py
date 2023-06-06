@@ -46,16 +46,16 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
         for word in word_list:
             if word.lower() in title:
                 times = len([t for t in title if t == word.lower()])
-                instances[word] = instances.get(word, 0) + times        else:
-        
+                instances[word] = instances.get(word, 0) + times
 
     if after is None:
         if len(instances) == 0:
             print("No matches found")
             return
-        
-        sorted_instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0].lower))
+
+        sorted_instances = sorted(instances.items(), key=lambda
+                                  kv: (-kv[1], kv[0].lower()))
         for word, count in sorted_instances:
-            print(f"{word.lower()}: {count}")
+            print("{}: {}".format(word.lower(), count))
     else:
         count_words(subreddit, word_list, instances, after, count)
