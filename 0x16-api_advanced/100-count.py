@@ -16,6 +16,9 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
         after (str): The parameter for the next page of the API results.
         count (int): The parameter of results matched thus far.
     """
+    if instances is None:
+        instances = {}
+
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
         "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
@@ -43,16 +46,16 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
         for word in word_list:
             if word.lower() in title:
                 times = len([t for t in title if t == word.lower()])
-                if instances.get(word) is None:
-                    instances[word] = times
-                else:
-                    instances[word] += times
+                instances[word] = instances.get(word, 0) + times        else:
+        
 
     if after is None:
         if len(instances) == 0:
-            print("")
+            print("No matches found")
             return
-        instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0]))
-        [print("{}: {}".format(k, v)) for k, v in instances]
+        
+        sorted_instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0].lower))
+        for word, count in sorted_instances:
+            print(f"{word.lower()}: {count}")
     else:
         count_words(subreddit, word_list, instances, after, count)
