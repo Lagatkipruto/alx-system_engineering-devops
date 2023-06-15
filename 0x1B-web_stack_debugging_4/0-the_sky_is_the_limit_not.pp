@@ -8,6 +8,6 @@ exec { 'fix--for-nginx':
 
 # Restart Nginx
   exec { 'nginx-restart':
-  command => 'nginx restart',
-  path    => '/etc/init.d/'
+  command => '/etc/init.d/nginx restart',
+  path    => '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
 }
